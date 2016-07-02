@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
+
+import Accounts from './accounts'
 
 class Header extends Component {
+  onProductClick(event) {
+    event.preventDefault()
+    Meteor.call('product.insert', (error, result) => {
+      browserHistory.push(`editproduct/${result}`)
+    })
+  }
   render() {
     return (
       <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -20,6 +28,15 @@ class Header extends Component {
               <li className="active"><Link to="/products">Home</Link></li>
               <li><Link to="/about">About</Link></li>
               <li><Link to="/contact">Contact</Link></li>
+              <li>
+                <a
+                  onClick={this.onProductClick.bind(this)}
+                  href="#"
+                >
+                  Create Product
+                </a>
+              </li>
+              <li><Accounts /></li>
             </ul>
           </div>
         </div>

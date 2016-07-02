@@ -1,1 +1,152 @@
 /* CSS declarations go here */
+body {
+  padding-top: 50px;
+}
+
+.error-template {padding: 40px 15px;text-align: center;}
+.error-actions {margin-top:15px;margin-bottom:15px;}
+.error-actions .btn { margin-right:10px; }
+
+.loading-message {
+  color: #fff;
+  font-size: 25px;
+  font-weight: 300;
+  font-family: sans-serif;
+}
+.sk-spinner-rotating-plane.sk-spinner {
+  background-color: #fff;
+}
+
+.cover{
+  color: rgb(255, 255, 255);
+  position: relative;
+  min-height: 680px;
+  padding-top:80px;
+  background: url("/images/splash/rocket-shop.jpg") no-repeat scroll 0px 100% / cover transparent;
+  border-bottom:9px solid #7b9ed0;
+}
+
+.jumbotron{
+  background: none;
+}
+.jumbotron h1{
+  font-size: 63px;
+  text-align:center;
+  margin:0
+}
+.jumbotron p.lead {
+  font-family:"Georgia";
+  text-align:center;
+  font-size:36px;
+  font-style:italic;
+  color:#ccc;
+
+}
+
+.panel-title {display: inline;font-weight: bold;}
+.checkbox.pull-right { margin: 0; }
+.pl-ziro { padding-left: 0px; }
+
+.col-item
+{
+  border: 1px solid #E1E1E1;
+  border-radius: 5px;
+  background: #FFF;
+}
+.col-item .photo img
+{
+  margin: 0 auto;
+  width: 100%;
+}
+
+.col-item .info
+{
+  padding: 10px;
+  border-radius: 0 0 5px 5px;
+  margin-top: 1px;
+}
+
+.col-item:hover .info {
+  background-color: #F5F5DC;
+}
+.col-item .price
+{
+  /*width: 50%;*/
+  float: left;
+  margin-top: 5px;
+}
+
+.col-item .price h5
+{
+  line-height: 20px;
+  margin: 0;
+}
+
+.price-text-color
+{
+  color: #219FD1;
+}
+
+.col-item .info .rating
+{
+  color: #777;
+}
+
+.col-item .rating
+{
+  float: left;
+  font-size: 17px;
+  text-align: right;
+  line-height: 52px;
+  margin-bottom: 10px;
+  height: 52px;
+}
+
+.col-item .separator
+{
+  border-top: 1px solid #E1E1E1;
+}
+
+.clear-left
+{
+  clear: left;
+}
+
+.col-item .separator p
+{
+  line-height: 20px;
+  margin-bottom: 0;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.col-item .separator p i
+{
+  margin-right: 5px;
+}
+.col-item .btn-add
+{
+  width: 50%;
+  float: left;
+}
+
+.col-item .btn-add
+{
+  border-right: 1px solid #E1E1E1;
+}
+
+.col-item .btn-details
+{
+  width: 50%;
+  float: left;
+  padding-left: 10px;
+}
+.controls
+{
+  margin-top: 20px;
+}
+
+
+.product-main {
+  padding-top: 60px;
+}
