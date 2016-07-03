@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
+import { Meteor } from 'meteor/meteor'
+import { Roles } from 'meteor/alanning:roles'
 
 import Accounts from './accounts'
 
@@ -9,6 +11,12 @@ class Header extends Component {
     Meteor.call('product.insert', (error, result) => {
       browserHistory.push(`editproduct/${result}`)
     })
+  }
+  renderAdmin() {
+    console.log(this.props.currentUser)
+      return (
+        <Link to="/" >Admin</Link>
+      )
   }
   render() {
     return (
@@ -36,6 +44,7 @@ class Header extends Component {
                   Create Product
                 </a>
               </li>
+              <li>{this.renderAdmin()}</li>
               <li><Accounts /></li>
             </ul>
           </div>

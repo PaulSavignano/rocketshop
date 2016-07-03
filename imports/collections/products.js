@@ -1,21 +1,7 @@
 import { Mongo } from 'meteor/mongo'
-import { FS } from 'meteor/cfs:base-package'
+import ProductImages from './product_images'
 
-export const ProductImages = new FS.Collection('ProductImages', {
-  stores: [new FS.Store.GridFS('ProductImages')]
-})
-
-ProductImages.allow({
-  insert: function(userId, doc) {
-    return true;
-  },
-  update: function(userId, doc, fields, modifier) {
-    return true;
-  },
-  download: function() {
-    return true;
-  }
-});
+const Products = new Mongo.Collection('products')
 
 
 Meteor.methods({
@@ -31,16 +17,47 @@ Meteor.methods({
       ownerId: this.userId
     })
   },
-  'product.update': function(productId, name, description, price) {
-    return Products.update(productId, { $set: { name, description, price } })
+  'product.update.name': function(productId, name) {
+    return Products.update(productId, { $set: { name } })
+  },
+  'product.update.description': function(productId, description) {
+    return Products.update(productId, { $set: { description } })
+  },
+  'product.update.price': function(productId, price) {
+    return Products.update(productId, { $set: { price } })
   },
   'product.remove': function(productId) {
     return Products.remove(productId)
   },
-  'product.updateImage': function(productId, result) {
+  'product.update.image': function(productId, result) {
     const imageLoc = `/cfs/files/ProductImages/${result}`
     Products.update(productId, { $set: { image: imageLoc } })
   }
 })
 
-export const Products = new Mongo.Collection('products')
+
+
+Products.bySku = function(sku){
+  return Products.findOne({sku : sku});
+};
+
+Products.featured = function(){
+  var featuredSkus = ["honeymoon-mars","johnny-liftoff","one-way-reentry"];
+  return Products.find({sku : {$in : featuredSkus}},
+    {fields : {inventory : false, cost : false}});
+};
+
+Products.allow({
+  update : function(userid, product){
+    return isAdmin();
+  },
+  insert : function(userid, product){
+    return isAdmin();
+  },
+  remove : function(userid, product){
+    return isAdmin();
+  }
+});
+
+
+export default Products

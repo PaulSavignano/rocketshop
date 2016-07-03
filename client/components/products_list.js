@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { createContainer } from 'meteor/react-meteor-data'
 import { Link } from 'react-router'
+import accounting from 'accounting'
 
-import { Products } from '../../imports/collections/products'
+import Products from '../../imports/collections/products'
 
 class ProductsList extends Component {
   renderList() {
@@ -10,10 +11,10 @@ class ProductsList extends Component {
       const { name, image, price } = product
       const url = `editproduct/${product._id}`
       return (
-        <div key={product._id} className="col-sm-4">
+        <div key={product._id} className="col-sm-4 product-list">
           <div className="col-item">
             <div className="photo">
-              <img src={image} className="img-responsive" alt="a" />
+              <img src={image} className="img-responsive thumb" alt="a" />
             </div>
             <div className="info">
               <div className="row">
@@ -22,7 +23,7 @@ class ProductsList extends Component {
                     {name}
                   </h5>
                   <h5 className="price-text-color">
-                    {price}
+                    {accounting.formatMoney(price)}
                   </h5>
                 </div>
                 <div className="rating hidden-sm col-md-6">

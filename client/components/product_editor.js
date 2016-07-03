@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 
-import { ProductImages } from '../../imports/collections/products'
+import Products from '../../imports/collections/products'
+import ProductImages from '../../imports/collections/product_images'
 
 class ProductEditor extends Component {
   constructor(props) {
-    super(props)
-    this.state = { image: this.props.product.image }
-  }
-  onFormChange(event) {
-    const { name, description, price } = this.refs
-    Meteor.call('product.update', this.props.product._id, name.value, description.value, price.value)
+    super(props);
+    const { name, description, price } = this.props.product
+    this.state = {
+      file: '',
+      imagePreviewUrl: '',
+      name: name,
+      description: description,
+      price: price
+    }
   }
   onProductRemove(event) {
     event.preventDefault()
@@ -22,45 +26,87 @@ class ProductEditor extends Component {
       }
     })
   }
-  onImageChange(event) {
-    event.preventDefault()
-    const file = this.refs.productImage.files[0]
-    if (file) {
-      fsFile = new FS.File(file)
-      ProductImages.insert(fsFile, (error, result) => {
-        if (error) {
-          throw new Meteor.Error(error)
-        } else {
-          Meteor.call('product.updateImage', this.props.product._id, result._id)
-          this.setState({ image: this.props.product.image })
-          this.forceUpdate()
-        }
-      })
+
+  onImageChange(e) {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    fsFile = new FS.File(file)
+    ProductImages.insert(fsFile, (error, result) => {
+      if (error) {
+        throw new Meteor.Error(error)
+      } else {
+        Meteor.call('product.update.image', this.props.product._id, result._id)
+      }
+    })
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
     }
+    reader.readAsDataURL(file)
   }
+
+  onNameChange(e) {
+    const name = e.target.value
+    this.setState({ name: name })
+    Meteor.call('product.update.name', this.props.product._id, name)
+  }
+  onDescriptionChange(e) {
+    const description = e.target.value
+    this.setState({ description: description })
+    Meteor.call('product.update.description', this.props.product._id, description)
+  }
+  onPriceChange(e) {
+    const price = e.target.value
+    this.setState({ price: price })
+    Meteor.call('product.update.price', this.props.product._id, price)
+  }
+
   render() {
-    console.log(this.props.product.image)
-    if (!this.props.product.image) { return <div>Loading...</div>}
-    const { name, image, description, price } = this.props.product
+    let {imagePreviewUrl} = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (<img src={imagePreviewUrl} className="img-responsive" />);
+    } else {
+      $imagePreview = (<img src={this.props.product.image} className="img-responsive" />);
+    }
     return (
       <div className="container product-main">
-        <form onChange={this.onFormChange.bind(this)}>
           <div className="row">
             <div className="col-md-7">
-              <img src={this.state.image} />
-                Upload Profile Image:
-                <input
-                  onChange={this.onImageChange.bind(this)}
-                  type="file"
-                  ref="productImage"
-                />
+              {$imagePreview}
+              <input
+                onChange={this.onImageChange.bind(this)}
+                className="fileInput"
+                type="file"
+              />
             </div>
             <div className="col-md-5">
-              <label>Name:</label><input ref="name" className="form-control"/>
-              <label>Description:</label><input ref="description" className="form-control"/>
+              <label>Name:</label>
+              <input
+                onChange={this.onNameChange.bind(this)}
+                ref="name"
+                value={this.state.name}
+                className="form-control"
+              />
+              <label>Description:</label>
+              <input
+                onChange={this.onDescriptionChange.bind(this)}
+                ref="description"
+                value={this.state.description}
+                className="form-control"
+              />
               <div className="row">
                 <div className="col-md-12">
-                  <label>Price:</label><input ref="price" className="form-control"/>
+                  <label>Price:</label>
+                  <input
+                    onChange={this.onPriceChange.bind(this)}
+                    ref="price"
+                    value={this.state.price}
+                    className="form-control"
+                  />
                   <hr/>
                   <p>
                     <button
@@ -77,7 +123,6 @@ class ProductEditor extends Component {
               </div>
             </div>
           </div>
-        </form>
 
       </div>
     )

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { createContainer } from 'meteor/react-meteor-data'
 
-import { Products } from '../../imports/collections/products'
-import { ProductImages } from '../../imports/collections/products'
+import Products from '../../imports/collections/products'
+import ProductImages from '../../imports/collections/product_images'
 import ProductEditor from './product_editor'
 
 class ProductMain extends Component {

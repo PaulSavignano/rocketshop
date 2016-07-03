@@ -150,3 +150,26 @@ body {
 .product-main {
   padding-top: 60px;
 }
+
+
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.photo {
+  width: 300px;
+}
+
+.thumb {
+  height: 300px
+}
+
+
+#login-buttons {
+  margin: 18px;
+  font-size: 14px;
+}
